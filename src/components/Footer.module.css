@@ -1,0 +1,58 @@
+.footer {
+  background: var(--espresso);
+  border-top: 1px solid rgba(247, 211, 164, 0.25);
+  padding-block: clamp(4rem, 8vw, 6rem) 3rem;
+  text-align: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lockup {
+  color: var(--ivory);
+}
+
+.lockup > span {
+  --lockup-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.meta {
+  margin-top: 1.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(248, 244, 234, 0.6);
+}
+
+.nav {
+  margin-top: 2.2rem;
+  display: flex;
+  gap: 2.2rem;
+}
+
+.nav a {
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(248, 244, 234, 0.6);
+  transition: color 0.35s var(--ease-lux);
+}
+
+.nav a:hover {
+  color: var(--peach);
+}
+
+.inner :global(.goldRule) {
+  margin-block: 2.6rem 1.8rem;
+  background: linear-gradient(90deg, transparent, var(--peach), transparent);
+}
+
+.closing {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(248, 244, 234, 0.7);
+}

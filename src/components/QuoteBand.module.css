@@ -1,0 +1,58 @@
+.band {
+  position: relative;
+  padding-block: clamp(7rem, 16vw, 12rem);
+  background-size: cover;
+  background-position: center 35%;
+  background-attachment: fixed;
+  text-align: center;
+  overflow: hidden;
+}
+
+@supports (-webkit-touch-callout: none) {
+  /* iOS ignores fixed attachment; fall back gracefully */
+  .band {
+    background-attachment: scroll;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, var(--paper), rgba(34, 21, 5, 0.5) 18%, rgba(34, 21, 5, 0.5) 82%, var(--paper-deep)),
+    rgba(88, 52, 12, 0.35);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: min(760px, 100% - 3rem);
+  margin-inline: auto;
+}
+
+.mark {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  line-height: 0.6;
+  color: var(--peach);
+  opacity: 0.9;
+}
+
+.quote {
+  margin-top: 1.4rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  line-height: 1.5;
+  color: var(--ivory);
+}
+
+.attribution {
+  margin-top: 1.8rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--peach);
+}

@@ -1,0 +1,176 @@
+.schedule {
+  background:
+    radial-gradient(ellipse 70% 50% at 85% 8%, rgba(247, 211, 164, 0.3), transparent 60%),
+    var(--paper-deep);
+}
+
+.header {
+  text-align: center;
+  max-width: 680px;
+  margin-inline: auto;
+  margin-bottom: clamp(4rem, 9vw, 7rem);
+}
+
+.header :global(.displayTitle) {
+  margin-top: 1.3rem;
+}
+
+.subtitle {
+  margin-top: 1.4rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.timeline {
+  position: relative;
+  max-width: 880px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 8vw, 5.5rem);
+}
+
+.line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--brand-soft) 12%,
+    var(--brand-soft) 88%,
+    transparent
+  );
+}
+
+.event {
+  position: relative;
+  width: 50%;
+  padding-right: clamp(2.4rem, 5vw, 4rem);
+  text-align: right;
+}
+
+.eventAlt {
+  align-self: flex-end;
+  padding-right: 0;
+  padding-left: clamp(2.4rem, 5vw, 4rem);
+  text-align: left;
+}
+
+.node {
+  position: absolute;
+  top: 0.9rem;
+  right: -5px;
+  width: 9px;
+  height: 9px;
+  transform: rotate(45deg);
+  background: var(--brand);
+  box-shadow: 0 0 0 5px var(--paper-deep), 0 0 0 6px var(--brand-soft);
+}
+
+.eventAlt .node {
+  right: auto;
+  left: -4px;
+}
+
+.eventBody {
+  position: relative;
+  display: inline-block;
+}
+
+.number {
+  position: absolute;
+  top: -2.3rem;
+  right: -0.6rem;
+  font-family: var(--font-serif);
+  font-size: clamp(4.5rem, 9vw, 6.5rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(138, 87, 26, 0.3);
+  pointer-events: none;
+  user-select: none;
+}
+
+.eventAlt .number {
+  right: auto;
+  left: -0.6rem;
+}
+
+.eventContent {
+  position: relative;
+}
+
+.time {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: var(--brand-light);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  justify-content: flex-end;
+}
+
+.eventAlt .time {
+  justify-content: flex-start;
+}
+
+.venueTag {
+  color: var(--brand);
+  border: 1px solid var(--brand-soft);
+  background: var(--white);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.24em;
+  white-space: nowrap;
+}
+
+.eventTitle {
+  font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+  color: var(--ink);
+  margin-block: 0.7rem 0.9rem;
+}
+
+.description {
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.85;
+  max-width: 40ch;
+  display: inline-block;
+}
+
+@media (max-width: 700px) {
+  .line {
+    left: 4px;
+  }
+  .time,
+  .eventAlt .time {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .event,
+  .eventAlt {
+    width: 100%;
+    align-self: auto;
+    text-align: left;
+    padding-right: 0;
+    padding-left: 2.4rem;
+  }
+  .node,
+  .eventAlt .node {
+    right: auto;
+    left: 0;
+  }
+  .number,
+  .eventAlt .number {
+    right: auto;
+    left: -0.4rem;
+    top: -2rem;
+  }
+}

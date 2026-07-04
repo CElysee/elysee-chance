@@ -1,0 +1,8 @@
+.page {
+  background: var(--paper);
+  min-height: 100vh;
+}
+
+.galleryWrap :global(.section) {
+  padding-top: 0;
+}

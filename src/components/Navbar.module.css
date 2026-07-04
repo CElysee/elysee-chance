@@ -1,0 +1,247 @@
+.header {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 100;
+  padding-top: 45px;
+  transition: background-color 0.5s var(--ease-lux), border-color 0.5s var(--ease-lux),
+    box-shadow 0.5s var(--ease-lux);
+  border-bottom: 1px solid transparent;
+  color: var(--ink);
+}
+
+.onHero {
+  color: var(--ivory);
+}
+
+.solid {
+  background: rgba(253, 250, 243, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: rgba(138, 87, 26, 0.16);
+  box-shadow: 0 10px 40px -20px rgba(52, 36, 15, 0.25);
+  color: var(--ink);
+}
+
+.inner {
+  width: min(1320px, 100% - 3rem);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: auto;
+  padding-bottom: 14px;
+}
+
+.brand {
+  position: relative;
+  z-index: 110;
+}
+
+.logo {
+  height: 80px;
+  width: auto;
+  display: block;
+  transition: filter 0.5s var(--ease-lux);
+}
+
+.solid .logo {
+  height: 55px;
+}
+
+/* over the hero photo the brown logo won't read — render it in ivory */
+.onHero .logo {
+  filter: brightness(0) invert(0.97) sepia(0.12) saturate(1.4);
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.navLink {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: currentColor;
+  opacity: 0.75;
+  position: relative;
+  padding-block: 0.4rem;
+  transition: opacity 0.35s var(--ease-lux);
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--brand-light);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-lux);
+}
+
+.navLink:hover {
+  opacity: 1;
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.rsvpLink {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: currentColor;
+  border: 1px solid var(--brand-soft);
+  padding: 0.65rem 1.5rem;
+  transition: background-color 0.4s var(--ease-lux), color 0.4s var(--ease-lux),
+    border-color 0.4s var(--ease-lux);
+}
+
+.rsvpLink:hover {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--paper);
+}
+
+/* burger */
+
+.burger {
+  display: none;
+  position: relative;
+  z-index: 110;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.burger span {
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: currentColor;
+  transition: transform 0.45s var(--ease-lux), opacity 0.3s;
+}
+
+.burgerOpen span:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.burgerOpen span:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
+/* mobile menu */
+
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s var(--ease-lux), visibility 0.5s;
+  z-index: 105;
+}
+
+.mobileMenu::before {
+  content: "";
+  position: absolute;
+  inset: 1.1rem;
+  border: 1px solid rgba(138, 87, 26, 0.25);
+  pointer-events: none;
+}
+
+.mobileOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.mobileLink {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s var(--ease-lux), transform 0.6s var(--ease-lux), color 0.3s;
+}
+
+.mobileLink:hover {
+  color: var(--brand);
+}
+
+.mobileOpen .mobileLink {
+  opacity: 1;
+  transform: none;
+}
+
+.mobileRsvp {
+  margin-top: 1rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s var(--ease-lux), transform 0.6s var(--ease-lux),
+    background-color 0.45s var(--ease-lux);
+}
+
+.mobileOpen .mobileRsvp {
+  opacity: 1;
+  transform: none;
+}
+
+.mobileFootnote {
+  position: absolute;
+  bottom: 2.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+@media (max-width: 900px) {
+  .desktopNav {
+    display: none;
+  }
+  .burger {
+    display: flex;
+  }
+  .header {
+    padding-top: 14px;
+  }
+  .logo {
+    height: 64px;
+  }
+  .solid .logo {
+    height: 55px;
+  }
+  .inner {
+    width: calc(100% - 2.6rem);
+    padding-bottom: 10px;
+  }
+  /* burger must stay visible over the paper menu */
+  .header:has(.mobileOpen) {
+    color: var(--ink);
+  }
+}

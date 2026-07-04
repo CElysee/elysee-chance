@@ -1,0 +1,63 @@
+.countdown {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.unit {
+  display: flex;
+  align-items: stretch;
+}
+
+.divider {
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(247, 211, 164, 0.5), transparent);
+  margin-inline: clamp(1.1rem, 3.5vw, 2.4rem);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 3.2rem;
+}
+
+.value {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 4.4vw, 2.5rem);
+  font-weight: 400;
+  color: var(--ivory);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.label {
+  font-size: 0.62rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--peach);
+}
+
+.today {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.6rem;
+  color: var(--peach);
+}
+
+@media (max-width: 430px) {
+  .divider {
+    margin-inline: 0.8rem;
+  }
+  .cell {
+    min-width: 2.6rem;
+  }
+  .value {
+    font-size: 1.55rem;
+  }
+  .label {
+    font-size: 0.54rem;
+    letter-spacing: 0.24em;
+  }
+}

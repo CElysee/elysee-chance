@@ -1,0 +1,63 @@
+.page {
+  background:
+    radial-gradient(ellipse 65% 40% at 85% 0%, rgba(247, 211, 164, 0.4), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 8% 30%, rgba(247, 211, 164, 0.25), transparent 60%),
+    var(--paper);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+  min-height: 100vh;
+}
+
+.formWrap {
+  max-width: 720px;
+  margin-inline: auto;
+  background: rgba(255, 253, 248, 0.8);
+  border: 1px solid rgba(138, 87, 26, 0.28);
+  padding: clamp(1.8rem, 5vw, 3.5rem);
+  box-shadow: 0 40px 80px -40px rgba(52, 36, 15, 0.4);
+}
+
+.contacts {
+  max-width: 720px;
+  margin: 3rem auto 0;
+  text-align: center;
+}
+
+.contactsTitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink-soft);
+  margin-bottom: 1.6rem;
+}
+
+.contactsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem 4rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.contactName {
+  font-size: 0.68rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 0.3rem;
+}
+
+.contactPhone {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  transition: color 0.35s var(--ease-lux);
+}
+
+.contactPhone:hover {
+  color: var(--brand);
+}

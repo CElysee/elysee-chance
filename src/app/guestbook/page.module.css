@@ -1,0 +1,7 @@
+.page {
+  background:
+    radial-gradient(ellipse 55% 35% at 10% 5%, rgba(247, 211, 164, 0.35), transparent 60%),
+    var(--paper);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+  min-height: 100vh;
+}

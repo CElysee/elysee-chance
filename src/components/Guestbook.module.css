@@ -1,0 +1,121 @@
+.guestbook {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 8vw, 6rem);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  max-width: 640px;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.form :global(.btn) {
+  align-self: flex-start;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: var(--red);
+  font-size: 0.9rem;
+  border-left: 2px solid var(--red);
+  padding-left: 1rem;
+}
+
+.thanks {
+  color: var(--brand);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+.empty {
+  text-align: center;
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.entries {
+  columns: 2 320px;
+  column-gap: 1.6rem;
+}
+
+.entry {
+  position: relative;
+  break-inside: avoid;
+  margin-bottom: 1.6rem;
+  background: var(--white);
+  border: 1px solid rgba(138, 87, 26, 0.22);
+  border-top: 2px solid var(--brand);
+  padding: 2.4rem 2rem 1.8rem;
+  box-shadow: 0 25px 50px -30px rgba(52, 36, 15, 0.35);
+  animation: entryIn 0.8s var(--ease-lux) both;
+}
+
+@keyframes entryIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.quoteMark {
+  position: absolute;
+  top: 0.4rem;
+  left: 1.4rem;
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  line-height: 1;
+  color: rgba(138, 87, 26, 0.3);
+  pointer-events: none;
+}
+
+.entryMessage {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.entryFooter {
+  margin-top: 1.4rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.entryName {
+  font-style: normal;
+  font-size: 0.74rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.entryDate {
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+
+@media (max-width: 620px) {
+  .form :global(.btn) {
+    align-self: stretch;
+    width: 100%;
+  }
+}

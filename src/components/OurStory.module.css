@@ -1,0 +1,249 @@
+.story {
+  background:
+    radial-gradient(ellipse 60% 40% at 90% 5%, rgba(247, 211, 164, 0.35), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 5% 80%, rgba(247, 211, 164, 0.22), transparent 60%),
+    var(--paper);
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  max-width: 760px;
+  margin-inline: auto;
+  margin-bottom: clamp(4.5rem, 10vw, 8rem);
+}
+
+.header :global(.displayTitle) {
+  margin-top: 1.3rem;
+}
+
+.titleEm {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brand);
+}
+
+.lede {
+  margin-top: 1.8rem;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.9;
+}
+
+/* chapters */
+
+.chapters {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(5rem, 12vw, 9rem);
+}
+
+.chapter {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 6.5fr) minmax(0, 5.5fr);
+  align-items: center;
+}
+
+.ghost {
+  position: absolute;
+  top: -0.5em;
+  right: -2rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(5rem, 15vw, 12rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(138, 87, 26, 0.18);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.chapterFlip .ghost {
+  right: auto;
+  left: -2rem;
+}
+
+.imageWrap {
+  position: relative;
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+}
+
+.chapterFlip .imageWrap {
+  grid-column: 2;
+}
+
+.imageInner {
+  overflow: hidden;
+  box-shadow: 0 35px 70px -30px rgba(52, 36, 15, 0.4);
+}
+
+.imageInner img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: saturate(0.96);
+  transition: transform 1.4s var(--ease-lux), filter 1s var(--ease-lux);
+}
+
+.chapter:nth-child(3) .imageInner img {
+  aspect-ratio: 5 / 4;
+}
+
+.imageWrap:hover .imageInner img {
+  transform: scale(1.04);
+  filter: saturate(1.05);
+}
+
+.imageFrame {
+  position: absolute;
+  inset: 1.2rem -1.2rem -1.2rem 1.2rem;
+  border: 1px solid rgba(138, 87, 26, 0.4);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.chapterFlip .imageFrame {
+  inset: 1.2rem 1.2rem -1.2rem -1.2rem;
+}
+
+.numeral {
+  position: absolute;
+  top: -1.4rem;
+  left: -1rem;
+  font-family: var(--font-serif);
+  font-size: clamp(3.4rem, 7vw, 5rem);
+  line-height: 1;
+  color: var(--brand);
+  z-index: 2;
+}
+
+.chapterFlip .numeral {
+  left: auto;
+  right: -1rem;
+}
+
+.panel {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  z-index: 2;
+  background: var(--white);
+  border: 1px solid rgba(138, 87, 26, 0.22);
+  padding: clamp(2.2rem, 5vw, 3.6rem);
+  margin-left: clamp(-6rem, -7vw, -2.5rem);
+  box-shadow: 0 40px 90px -35px rgba(52, 36, 15, 0.45);
+}
+
+.chapterFlip .panel {
+  grid-column: 1;
+  margin-left: 0;
+  margin-right: clamp(-6rem, -7vw, -2.5rem);
+}
+
+.panel :global(.goldRuleLeft) {
+  margin-block: 1.4rem;
+}
+
+.chapterKicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--brand-light);
+}
+
+.chapterTitle {
+  margin-top: 0.9rem;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  color: var(--ink);
+}
+
+.quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--brand);
+  line-height: 1.5;
+}
+
+.text {
+  margin-top: 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.9;
+}
+
+/* signature */
+
+.signatureBlock {
+  margin-top: clamp(5rem, 10vw, 7rem);
+  text-align: center;
+}
+
+.signatureBlock :global(.goldRule) {
+  margin-bottom: 2rem;
+}
+
+.signature {
+  font-size: 0.72rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.signature em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--brand);
+}
+
+@media (max-width: 860px) {
+  .chapter,
+  .chapterFlip {
+    grid-template-columns: 1fr;
+  }
+  .imageWrap,
+  .chapterFlip .imageWrap {
+    grid-column: 1;
+    grid-row: auto;
+    width: calc(100% - 1.5rem);
+  }
+  .chapterFlip .imageWrap {
+    align-self: flex-end;
+    margin-left: 1.5rem;
+  }
+  .imageFrame,
+  .chapterFlip .imageFrame {
+    inset: 1rem -1rem -1rem 1rem;
+  }
+  .chapterFlip .imageFrame {
+    inset: 1rem 1rem -1rem -1rem;
+  }
+  .panel,
+  .chapterFlip .panel {
+    grid-column: 1;
+    grid-row: auto;
+    margin: -4rem 0 0 1.5rem;
+  }
+  .chapterFlip .panel {
+    margin: -4rem 1.5rem 0 0;
+  }
+  .numeral {
+    top: -1rem;
+    left: 0.8rem;
+  }
+  .chapterFlip .numeral {
+    right: 0.8rem;
+  }
+}

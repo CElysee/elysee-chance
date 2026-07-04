@@ -1,0 +1,174 @@
+.invitation {
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+
+/* florals from the couple's printed invitation; multiply hides their white paper */
+
+.floralTop,
+.floralBottom {
+  position: absolute;
+  width: clamp(160px, 24vw, 340px);
+  mix-blend-mode: multiply;
+  opacity: 0.9;
+  pointer-events: none;
+  user-select: none;
+}
+
+.floralTop {
+  top: -8px;
+  left: -10px;
+}
+
+.floralBottom {
+  bottom: -8px;
+  right: -10px;
+}
+
+.card {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+  position: relative;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.6rem, 6vw, 4.5rem);
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(138, 87, 26, 0.5);
+  pointer-events: none;
+  background: linear-gradient(
+    145deg,
+    rgba(201, 154, 61, 0.06),
+    transparent 40%,
+    transparent 65%,
+    rgba(201, 154, 61, 0.05)
+  );
+}
+
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(138, 87, 26, 0.22);
+}
+
+.families {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
+
+.parents {
+  margin-top: 0.5rem;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  color: #5c3a10;
+  letter-spacing: 0.02em;
+}
+
+.line {
+  margin-top: 2rem;
+  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 2;
+  font-weight: 300;
+}
+
+.logo {
+  width: min(430px, 84%);
+  margin: 2.4rem auto 2rem;
+}
+
+.dateRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 3vw, 1.6rem);
+}
+
+.dateWord {
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.dateBar {
+  width: 1px;
+  height: 2.6rem;
+  background: var(--brand);
+  opacity: 0.55;
+}
+
+.dateDay {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  color: #c08a4e;
+  line-height: 1;
+}
+
+.dateDay sup {
+  font-size: 0.4em;
+  letter-spacing: 0.05em;
+}
+
+.venueLine {
+  margin-top: 1.8rem;
+  font-size: clamp(0.85rem, 2.2vw, 1.05rem);
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  text-transform: uppercase;
+  color: #c08a4e;
+  font-weight: 400;
+}
+
+.verse {
+  margin-top: 2.4rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  max-width: 44ch;
+  margin-inline: auto;
+}
+
+.verse cite {
+  display: block;
+  margin-top: 0.7rem;
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+.dayName {
+  margin-top: 2.2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid rgba(138, 87, 26, 0.25);
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .floralTop {
+    top: -6px;
+    left: -30px;
+  }
+  .floralBottom {
+    bottom: -6px;
+    right: -30px;
+  }
+}

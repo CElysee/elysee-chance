@@ -1,0 +1,5 @@
+.page {
+  background: var(--paper);
+  padding-bottom: clamp(5rem, 10vw, 8rem);
+  min-height: 100vh;
+}
