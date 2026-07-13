@@ -40,6 +40,13 @@ jobs:
           cp ecosystem.config.cjs release/ecosystem.config.cjs
           tar -czf release.tar.gz -C release .
 
+      - name: Check deployment secrets
+        run: |
+          test -n "${{ secrets.SSH_HOST }}" || (echo "Missing SSH_HOST" && exit 1)
+          test -n "${{ secrets.SSH_USER }}" || (echo "Missing SSH_USER" && exit 1)
+          test -n "${{ secrets.SSH_PRIVATE_KEY }}" || (echo "Missing SSH_PRIVATE_KEY" && exit 1)
+          test -n "${{ secrets.SSH_PORT }}" || (echo "Missing SSH_PORT" && exit 1)
+
       - name: Upload release
         uses: appleboy/scp-action@v0.1.7
         with:
