@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import RSVPForm from "@/components/RSVPForm";
 import { weddingData } from "@/data/weddingData";
+import { createMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "RSVP — Chance & Elysee",
+export const metadata: Metadata = createMetadata({
+  title: "RSVP for Chance & Elysee Wedding",
   description:
-    "Kindly respond by RSVP for the wedding of Chance & Elysee, 30 August 2026 at Jalia Hall, Rusororo, Kigali.",
-};
+    "RSVP for Chance & Elysee's wedding on 30 August 2026 at Jalia Hall, Rusororo, Kigali.",
+  path: "/rsvp",
+});
 
 export default function RSVPPage() {
   return (

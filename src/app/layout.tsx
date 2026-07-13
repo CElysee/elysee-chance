@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { createMetadata, seoConfig } from "@/lib/seo";
 import "@/styles/globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -20,9 +21,14 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Chance & Elysee — 30 August 2026",
-  description:
-    "Together with their families, Chance & Elysee invite you to celebrate their wedding day. 30 August 2026 · Jalia Hall, Rusororo, Kigali, Rwanda.",
+  metadataBase: new URL(seoConfig.siteUrl),
+  applicationName: seoConfig.siteName,
+  generator: "Next.js",
+  ...createMetadata({
+    title: "Chance & Elysee Wedding — 30 August 2026",
+    description:
+      "Join Chance & Elysee for their wedding celebration on 30 August 2026 at Jalia Hall, Rusororo, Kigali, Rwanda.",
+  }),
 };
 
 export const viewport: Viewport = {

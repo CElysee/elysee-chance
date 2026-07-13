@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import GalleryPreview from "@/components/GalleryPreview";
+import { createMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Gallery — Chance & Elysee",
+export const metadata: Metadata = createMetadata({
+  title: "Gallery — Chance & Elysee Wedding",
   description:
-    "Moments before forever — a gallery of Chance & Elysee ahead of their wedding day.",
-};
+    "Engagement photos and wedding gallery moments for Chance & Elysee ahead of their wedding day in Kigali.",
+  path: "/gallery",
+  image: "/images/couple/DSC09700.JPG",
+});
 
 export default function GalleryPage() {
   return (

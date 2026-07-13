@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
 import Guestbook from "@/components/Guestbook";
+import { createMetadata } from "@/lib/seo";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Guestbook — Chance & Elysee",
+export const metadata: Metadata = createMetadata({
+  title: "Guestbook — Chance & Elysee Wedding",
   description:
-    "Leave your wishes and blessings for Chance & Elysee ahead of their wedding day.",
-};
+    "Leave wishes, blessings, and kind words for Chance & Elysee before their wedding day.",
+  path: "/guestbook",
+});
 
 export default function GuestbookPage() {
   return (
