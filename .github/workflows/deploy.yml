@@ -68,8 +68,9 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
+          RELEASE_ID: ${{ github.sha }}
         run: |
-          scp -i ~/.ssh/deploy_key -P "$SSH_PORT" release.tar.gz "$SSH_USER@$SSH_HOST:/tmp/release.tar.gz"
+          scp -i ~/.ssh/deploy_key -P "$SSH_PORT" release.tar.gz "$SSH_USER@$SSH_HOST:/tmp/elysee-chance-$RELEASE_ID.tar.gz"
 
       - name: Activate release
         env:
@@ -78,6 +79,7 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           APP_DIR: ${{ secrets.APP_DIR || '/var/www/elysee-chance' }}
           RELEASE_ID: ${{ github.sha }}
+          RELEASE_ARCHIVE: /tmp/elysee-chance-${{ github.sha }}.tar.gz
           GOOGLE_SHEETS_SPREADSHEET_ID: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}
           GOOGLE_SHEETS_RSVP_SHEET_NAME: ${{ secrets.GOOGLE_SHEETS_RSVP_SHEET_NAME }}
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
@@ -97,6 +99,7 @@ jobs:
           {
             write_export APP_DIR
             write_export RELEASE_ID
+            write_export RELEASE_ARCHIVE
             write_export GOOGLE_SHEETS_SPREADSHEET_ID
             write_export GOOGLE_SHEETS_RSVP_SHEET_NAME
             write_export GOOGLE_SERVICE_ACCOUNT_EMAIL
@@ -115,7 +118,8 @@ jobs:
           rm -f /tmp/elysee-chance-env.sh
           RELEASE_DIR="$APP_DIR/releases/${RELEASE_ID:-manual-$(date +%Y%m%d%H%M%S)}"
           mkdir -p "$RELEASE_DIR"
-          tar -xzf /tmp/release.tar.gz -C "$RELEASE_DIR"
+          tar -xzf "$RELEASE_ARCHIVE" -C "$RELEASE_DIR"
+          rm -f "$RELEASE_ARCHIVE"
           ln -sfn "$RELEASE_DIR" "$APP_DIR/current"
           cd "$APP_DIR/current"
           pm2 startOrReload ecosystem.config.cjs --env production --update-env
