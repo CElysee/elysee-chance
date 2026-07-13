@@ -49,9 +49,9 @@
 .swatches {
   margin-top: clamp(3.5rem, 8vw, 5.5rem);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: clamp(1rem, 3vw, 2.4rem);
-  max-width: 860px;
+  max-width: 980px;
   margin-inline: auto;
 }
 
@@ -61,6 +61,10 @@
 
 .swatch:nth-child(2) {
   transform: translateY(clamp(1.2rem, 3vw, 2.4rem));
+}
+
+.swatch:nth-child(3) {
+  transform: translateY(clamp(0.6rem, 1.5vw, 1.2rem));
 }
 
 .swatchColor {
@@ -137,6 +141,7 @@
 
 @media (max-width: 700px) {
   .swatches {
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.8rem;
   }
   .swatchName {

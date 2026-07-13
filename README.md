@@ -53,8 +53,8 @@ The invitation logo (`public/images/brand/logo-gold.png`) appears in the
 invitation section; the hero and footer use a CSS recreation of the same
 lockup (Ziraje Chance & Confiance Elysee). The whole site uses the logo
 palette sampled from the invitation: warm paper `#FDFAF3`, deep gold-brown
-`#8A571A`, tan `#C08A4E`, peach `#F7D3A4`, and espresso `#221505`. Red, gold
-and black appear in the dress-code moodboard as the guest attire theme.
+`#8A571A`, tan `#C08A4E`, peach `#F7D3A4`, and espresso `#221505`. Red, gold,
+beige, and black appear in the dress-code moodboard as the guest attire theme.
 
 ## Routes
 

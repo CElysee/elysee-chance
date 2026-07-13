@@ -48,15 +48,16 @@ export const weddingData = {
     text: "From a simple beginning to a love that feels like home, our journey has been filled with laughter, faith, growth, and beautiful memories. We are excited to celebrate this next chapter with the people who mean the most to us.",
   },
   dressCode: {
-    title: "Red, Gold & Black Affair",
-    text: "We invite our guests to dress elegantly in Red, Gold, Black, or a beautiful combination of these colors.",
+    title: "Red, Gold, Beige & Black Affair",
+    text: "We invite our guests to dress elegantly in Red, Gold, Beige, Black, or a beautiful combination of these colors.",
     ladies:
-      "Elegant dresses, gowns, or traditional attire in red, gold, black, or a refined combination.",
+      "Elegant dresses, gowns, or traditional attire in red, gold, beige, black, or a refined combination.",
     gentlemen:
-      "Black suits, formal wear, or traditional attire with red or gold accents.",
+      "Black suits, formal wear, or traditional attire with red, gold, or beige accents.",
     swatches: [
       { name: "Luxury Red", hex: "#A80014" },
       { name: "Gold", hex: "#C99A3D" },
+      { name: "Beige", hex: "#D8C3A5" },
       { name: "Black", hex: "#050505" },
     ],
   },
