@@ -6,6 +6,7 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: "standalone",
   // a stray lockfile exists in a parent directory; keep tracing scoped here
   outputFileTracingRoot: projectRoot,
 };

@@ -1,0 +1,82 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Prepare release
+        run: |
+          mkdir -p release/.next
+          cp -R .next/standalone/. release/
+          cp -R .next/static release/.next/static
+          cp -R public release/public
+          cp ecosystem.config.cjs release/ecosystem.config.cjs
+          tar -czf release.tar.gz -C release .
+
+      - name: Upload release
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: release.tar.gz
+          target: /tmp
+
+      - name: Activate release
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          APP_DIR: ${{ secrets.APP_DIR || '/var/www/elysee-chance' }}
+          RELEASE_ID: ${{ github.sha }}
+          GOOGLE_SHEETS_SPREADSHEET_ID: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}
+          GOOGLE_SHEETS_RSVP_SHEET_NAME: ${{ secrets.GOOGLE_SHEETS_RSVP_SHEET_NAME }}
+          GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+          GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RSVP_EMAIL_FROM: ${{ secrets.RSVP_EMAIL_FROM }}
+          RSVP_EMAIL_REPLY_TO: ${{ secrets.RSVP_EMAIL_REPLY_TO }}
+          GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
+          GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          envs: APP_DIR,RELEASE_ID,GOOGLE_SHEETS_SPREADSHEET_ID,GOOGLE_SHEETS_RSVP_SHEET_NAME,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,RESEND_API_KEY,RSVP_EMAIL_FROM,RSVP_EMAIL_REPLY_TO,GMAIL_SMTP_USER,GMAIL_SMTP_APP_PASSWORD
+          script: |
+            set -eu
+            RELEASE_DIR="$APP_DIR/releases/${RELEASE_ID:-manual-$(date +%Y%m%d%H%M%S)}"
+            mkdir -p "$RELEASE_DIR"
+            tar -xzf /tmp/release.tar.gz -C "$RELEASE_DIR"
+            ln -sfn "$RELEASE_DIR" "$APP_DIR/current"
+            cd "$APP_DIR/current"
+            pm2 startOrReload ecosystem.config.cjs --env production --update-env
+            pm2 save
+            find "$APP_DIR/releases" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
