@@ -24,6 +24,21 @@ export const metadata: Metadata = {
   metadataBase: new URL(seoConfig.siteUrl),
   applicationName: seoConfig.siteName,
   generator: "Next.js",
+  icons: {
+    icon: [
+      {
+        url: seoConfig.iconImage,
+        type: "image/png",
+      },
+    ],
+    shortcut: seoConfig.iconImage,
+    apple: [
+      {
+        url: seoConfig.iconImage,
+        type: "image/png",
+      },
+    ],
+  },
   ...createMetadata({
     title: "Chance & Elysee Wedding — 30 August 2026",
     description:

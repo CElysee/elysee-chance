@@ -9,7 +9,7 @@ export const metadata: Metadata = createMetadata({
   description:
     "Engagement photos and wedding gallery moments for Chance & Elysee ahead of their wedding day in Kigali.",
   path: "/gallery",
-  image: "/images/couple/DSC09700.JPG",
+  image: "/images/couple/DSC09637.JPG",
 });
 
 export default function GalleryPage() {
