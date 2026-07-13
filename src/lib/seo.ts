@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 const siteUrl = "https://4mine.rw";
 const siteName = "Chance & Elysee Wedding";
-const defaultImage = "/images/couple/DSC09637.JPG";
+const defaultImage = "/images/seo/wedding-og.jpg";
 const iconImage = "/images/brand/logo-gold.png";
 
 type PageSeo = {
@@ -49,8 +49,8 @@ export function createMetadata({
       images: [
         {
           url: imageUrl,
-          width: 2880,
-          height: 3600,
+          width: 1200,
+          height: 628,
           alt: "Chance and Elysee wedding celebration",
         },
       ],

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     ],
   },
   ...createMetadata({
-    title: "Chance & Elysee Wedding — 30 August 2026",
+    title: "Chance & Elysee Are Getting Married | 30 August 2026",
     description:
       "Join Chance & Elysee for their wedding celebration on 30 August 2026 at Jalia Hall, Rusororo, Kigali, Rwanda.",
   }),
