@@ -30,7 +30,7 @@ export default function Venue() {
         <div className={styles.photos}>
           <Reveal className={styles.photoMain} variant="right" as="figure">
             <img
-              src="/images/venue/image-1783191136543.webp"
+              src="/images/venue/jalia 1.jpeg"
               alt="The ceremony stage at Jalia Hall, dressed in peach, florals, and woven lanterns"
               loading="lazy"
             />
@@ -55,7 +55,7 @@ export default function Venue() {
             as="figure"
           >
             <img
-              src="/images/venue/image-1783191152408.webp"
+              src="/images/venue/jalia 2.JPG"
               alt="Reception tables set with gold chairs and florals at Jalia Hall"
               loading="lazy"
             />
