@@ -44,7 +44,7 @@ Add a Proxy Host for the app:
 ```text
 Domain Names: 4mine.rw
 Scheme: http
-Forward Hostname / IP: 127.0.0.1
+Forward Hostname / IP: 172.17.0.1
 Forward Port: 3000
 Access List: Publicly Accessible
 Block Common Exploits: enabled
