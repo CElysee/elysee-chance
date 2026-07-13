@@ -41,25 +41,41 @@ jobs:
           tar -czf release.tar.gz -C release .
 
       - name: Check deployment secrets
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
         run: |
-          test -n "${{ secrets.SSH_HOST }}" || (echo "Missing SSH_HOST" && exit 1)
-          test -n "${{ secrets.SSH_USER }}" || (echo "Missing SSH_USER" && exit 1)
-          test -n "${{ secrets.SSH_PRIVATE_KEY }}" || (echo "Missing SSH_PRIVATE_KEY" && exit 1)
-          test -n "${{ secrets.SSH_PORT }}" || (echo "Missing SSH_PORT" && exit 1)
+          test -n "$SSH_HOST" || (echo "Missing SSH_HOST" && exit 1)
+          test -n "$SSH_USER" || (echo "Missing SSH_USER" && exit 1)
+          test -n "$SSH_PRIVATE_KEY" || (echo "Missing SSH_PRIVATE_KEY" && exit 1)
+          test -n "$SSH_PORT" || (echo "Missing SSH_PORT" && exit 1)
+
+      - name: Setup SSH
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: Upload release
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          source: release.tar.gz
-          target: /tmp
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: |
+          scp -i ~/.ssh/deploy_key -P "$SSH_PORT" release.tar.gz "$SSH_USER@$SSH_HOST:/tmp/release.tar.gz"
 
       - name: Activate release
-        uses: appleboy/ssh-action@v1.0.3
         env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
           APP_DIR: ${{ secrets.APP_DIR || '/var/www/elysee-chance' }}
           RELEASE_ID: ${{ github.sha }}
           GOOGLE_SHEETS_SPREADSHEET_ID: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}
@@ -71,19 +87,38 @@ jobs:
           RSVP_EMAIL_REPLY_TO: ${{ secrets.RSVP_EMAIL_REPLY_TO }}
           GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
           GMAIL_SMTP_APP_PASSWORD: ${{ secrets.GMAIL_SMTP_APP_PASSWORD }}
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          envs: APP_DIR,RELEASE_ID,GOOGLE_SHEETS_SPREADSHEET_ID,GOOGLE_SHEETS_RSVP_SHEET_NAME,GOOGLE_SERVICE_ACCOUNT_EMAIL,GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY,RESEND_API_KEY,RSVP_EMAIL_FROM,RSVP_EMAIL_REPLY_TO,GMAIL_SMTP_USER,GMAIL_SMTP_APP_PASSWORD
-          script: |
-            set -eu
-            RELEASE_DIR="$APP_DIR/releases/${RELEASE_ID:-manual-$(date +%Y%m%d%H%M%S)}"
-            mkdir -p "$RELEASE_DIR"
-            tar -xzf /tmp/release.tar.gz -C "$RELEASE_DIR"
-            ln -sfn "$RELEASE_DIR" "$APP_DIR/current"
-            cd "$APP_DIR/current"
-            pm2 startOrReload ecosystem.config.cjs --env production --update-env
-            pm2 save
-            find "$APP_DIR/releases" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
+        run: |
+          write_export() {
+            local name="$1"
+            local value="${!name-}"
+            printf 'export %s=%q\n' "$name" "$value"
+          }
+
+          {
+            write_export APP_DIR
+            write_export RELEASE_ID
+            write_export GOOGLE_SHEETS_SPREADSHEET_ID
+            write_export GOOGLE_SHEETS_RSVP_SHEET_NAME
+            write_export GOOGLE_SERVICE_ACCOUNT_EMAIL
+            write_export GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
+            write_export RESEND_API_KEY
+            write_export RSVP_EMAIL_FROM
+            write_export RSVP_EMAIL_REPLY_TO
+            write_export GMAIL_SMTP_USER
+            write_export GMAIL_SMTP_APP_PASSWORD
+          } > deploy-env.sh
+
+          scp -i ~/.ssh/deploy_key -P "$SSH_PORT" deploy-env.sh "$SSH_USER@$SSH_HOST:/tmp/elysee-chance-env.sh"
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" 'bash -s' <<'REMOTE_SCRIPT'
+          set -eu
+          . /tmp/elysee-chance-env.sh
+          rm -f /tmp/elysee-chance-env.sh
+          RELEASE_DIR="$APP_DIR/releases/${RELEASE_ID:-manual-$(date +%Y%m%d%H%M%S)}"
+          mkdir -p "$RELEASE_DIR"
+          tar -xzf /tmp/release.tar.gz -C "$RELEASE_DIR"
+          ln -sfn "$RELEASE_DIR" "$APP_DIR/current"
+          cd "$APP_DIR/current"
+          pm2 startOrReload ecosystem.config.cjs --env production --update-env
+          pm2 save
+          find "$APP_DIR/releases" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
+          REMOTE_SCRIPT
