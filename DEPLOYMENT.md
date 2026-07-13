@@ -63,3 +63,6 @@ Agree to Let's Encrypt Terms: enabled
 ```
 
 Make sure the DNS `A` record for `4mine.rw` points to `206.189.211.25`.
+
+The PM2 app listens on `0.0.0.0:3000`, so Nginx Proxy Manager can reach it
+through the Docker host gateway address above.

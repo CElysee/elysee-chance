@@ -125,5 +125,19 @@ jobs:
           pm2 delete elysee-chance || true
           pm2 start ecosystem.config.cjs --env production --update-env
           pm2 save
-          find "$APP_DIR/releases" -mindepth 1 -maxdepth 1 -type d | sort | head -n -5 | xargs -r rm -rf
+          for attempt in $(seq 1 10); do
+            if curl -fsS "http://127.0.0.1:${PORT:-3000}" >/dev/null; then
+              break
+            fi
+            if [ "$attempt" -eq 10 ]; then
+              pm2 logs elysee-chance --lines 80 --nostream
+              exit 1
+            fi
+            sleep 1
+          done
+          find "$APP_DIR/releases" -mindepth 1 -maxdepth 1 -type d ! -samefile "$RELEASE_DIR" -printf '%T@ %p\n' \
+            | sort -n \
+            | head -n -4 \
+            | cut -d' ' -f2- \
+            | xargs -r rm -rf
           REMOTE_SCRIPT
