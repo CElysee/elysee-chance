@@ -121,7 +121,7 @@ export const galleryImages: GalleryImage[] = [
   { src: "/images/couple/DSC09686.JPG", alt: "Chance and Elysee in a romantic portrait" },
   { src: "/images/couple/DSC09690.JPG", alt: "Chance and Elysee together in a soft outdoor scene" },
   { src: "/images/couple/DSC09700.JPG", alt: "Chance and Elysee holding each other close" },
-  { src: "/images/couple/DSC09716.JPG", alt: "Chance and Elysee in a graceful engagement portrait" },
+  // { src: "/images/couple/DSC09716.JPG", alt: "Chance and Elysee in a graceful engagement portrait" },
   { src: "/images/couple/DSC09728.JPG", alt: "Chance and Elysee seated together in black and white", mono: true },
   { src: "/images/couple/DSC09747.JPG", alt: "Chance and Elysee sharing a candid moment" },
   { src: "/images/couple/DSC09753.JPG", alt: "Chance and Elysee celebrating their love story" },
