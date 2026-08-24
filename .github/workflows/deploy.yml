@@ -85,6 +85,7 @@ jobs:
           GOOGLE_SERVICE_ACCOUNT_EMAIL: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
           GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
           RSVP_EMAIL_FROM: ${{ secrets.RSVP_EMAIL_FROM }}
           RSVP_EMAIL_REPLY_TO: ${{ secrets.RSVP_EMAIL_REPLY_TO }}
           GMAIL_SMTP_USER: ${{ secrets.GMAIL_SMTP_USER }}
@@ -105,6 +106,7 @@ jobs:
             write_export GOOGLE_SERVICE_ACCOUNT_EMAIL
             write_export GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY
             write_export RESEND_API_KEY
+            write_export BREVO_API_KEY
             write_export RSVP_EMAIL_FROM
             write_export RSVP_EMAIL_REPLY_TO
             write_export GMAIL_SMTP_USER

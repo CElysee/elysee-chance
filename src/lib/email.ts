@@ -3,7 +3,10 @@ import { eventLabels, weddingData } from "@/data/weddingData";
 import type { RSVPEntry } from "@/types/wedding";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
+const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
 const DEFAULT_GMAIL_USER = "ccelyse1@gmail.com";
+const DEFAULT_BREVO_SENDER_NAME = "Chance & Elysee";
+const DEFAULT_BREVO_SENDER_EMAIL = "onboarding@4mine.rw";
 
 const attendanceLabels: Record<RSVPEntry["attendance"], string> = {
   yes: "Joyfully accepts",
@@ -122,6 +125,22 @@ function buildConfirmationText(entry: RSVPEntry): string {
     "If anything changes, please contact us by phone:",
     contacts,
   ].join("\n");
+}
+
+function parseEmailAddress(value: string): { name: string; email: string } {
+  const match = value.match(/^(.*?)\s*<([^>]+)>$/);
+
+  if (!match) {
+    return {
+      name: DEFAULT_BREVO_SENDER_NAME,
+      email: value,
+    };
+  }
+
+  return {
+    name: match[1].trim().replace(/^"|"$/g, "") || DEFAULT_BREVO_SENDER_NAME,
+    email: match[2].trim(),
+  };
 }
 
 function encodeHeader(value: string): string {
@@ -330,6 +349,50 @@ async function sendWithResend({
   }
 }
 
+async function sendWithBrevo({
+  from,
+  to,
+  replyTo,
+  subject,
+  html,
+  text,
+}: {
+  from: string;
+  to: string;
+  replyTo?: string;
+  subject: string;
+  html: string;
+  text: string;
+}): Promise<void> {
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) throw new Error("Missing BREVO_API_KEY");
+
+  const sender = parseEmailAddress(
+    from || `${DEFAULT_BREVO_SENDER_NAME} <${DEFAULT_BREVO_SENDER_EMAIL}>`
+  );
+  const response = await fetch(BREVO_API_URL, {
+    method: "POST",
+    headers: {
+      "api-key": apiKey,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      sender,
+      to: [{ email: to }],
+      replyTo: replyTo ? parseEmailAddress(replyTo) : undefined,
+      subject,
+      htmlContent: html,
+      textContent: text,
+    }),
+  });
+
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Brevo confirmation email failed: ${details}`);
+  }
+}
+
 export async function sendRSVPConfirmationEmail(
   entry: RSVPEntry
 ): Promise<boolean> {
@@ -344,6 +407,18 @@ export async function sendRSVPConfirmationEmail(
 
   if (process.env.GMAIL_SMTP_APP_PASSWORD) {
     await sendWithGmailSmtp({
+      from,
+      to: entry.email,
+      replyTo,
+      subject,
+      html,
+      text,
+    });
+    return true;
+  }
+
+  if (process.env.BREVO_API_KEY) {
+    await sendWithBrevo({
       from,
       to: entry.email,
       replyTo,
